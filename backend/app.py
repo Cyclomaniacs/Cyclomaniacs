@@ -6,14 +6,8 @@ import os
 app = Flask(__name__)
 
 
-# def load_config():
 os.environ.get("FLASK_APP")
 
-
-
-@app.route('/')
-def index():
-    return render_template('index.html')
 
 def get_db_connection():
     conn = sqlite3.connect('database.db') 
@@ -21,10 +15,27 @@ def get_db_connection():
     return conn
 
 
-#@app.route('/')
-def search():
-    pass
-#app.route('/')
-def login():
-    pass
+def get_ip_info(ip_addr):
+    ip_json = requests.get('http://ip-api.com/json/' + ip_addr).json()  # get json object from api
+    return ip_json
 
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+@app.route('/locate')
+    ip_addr = request.remote_addr # ip address of the incoming connection
+    return get_ip_info(ip_addr)
+
+
+
+
+# #@app.route('/')
+# def search():
+#     pass
+# #app.route('/')
+# def login():
+#     pass
+
+if __name__ == "__main__":
+    application.run(debug=False)
