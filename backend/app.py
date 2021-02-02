@@ -1,8 +1,15 @@
 from flask import Flask, render_template
 import sqlite3
+import os
 
 
 app = Flask(__name__)
+
+
+# def load_config():
+os.environ.get("FLASK_APP")
+
+
 
 @app.route('/')
 def index():
