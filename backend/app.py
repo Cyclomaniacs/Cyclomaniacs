@@ -24,6 +24,7 @@ def index():
     return render_template('index.html')
 
 @app.route('/locate')
+def locate():
     ip_addr = request.remote_addr # ip address of the incoming connection
     return get_ip_info(ip_addr)
 
