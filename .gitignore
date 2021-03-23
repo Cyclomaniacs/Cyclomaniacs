@@ -2,3 +2,4 @@ venv
 .vscode
 __pycache__
 frontend/cycloman/node_modules
+node_modules
