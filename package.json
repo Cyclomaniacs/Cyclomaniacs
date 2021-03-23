@@ -1,0 +1,27 @@
+{
+  "name": "concurrency",
+  "version": "1.0.0",
+  "description": "Web tool created to assist cyclists in finding the best deals on cycling products from the most reputable bike retailers on the internet.",
+  "main": "index.js",
+  "dependencies": {
+    "concurrently": "^6.0.0",
+    "cross-env": "^7.0.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start:frontend": "cd frontend/cycloman && npm run start",
+    "start:backend": "cd backend && python app.py",
+    "start:global": "concurrently \"npm run start:backend\" \"npm run start:frontend\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/csaflip/Cyclomaniacs.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/csaflip/Cyclomaniacs/issues"
+  },
+  "homepage": "https://github.com/csaflip/Cyclomaniacs#readme"
+}
