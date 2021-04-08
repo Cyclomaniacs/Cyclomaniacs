@@ -15,7 +15,7 @@ class Search:
                 dbname='cyclodb'
             )
         except Exception as err:
-            print("Could not connect to database", err)
+            print(err)
             self.conn = None
 
     # __initCursor(self):
@@ -35,12 +35,14 @@ class Search:
         return
 
 
-    def start(self):
+    def start(self, search_term: str):
+        #run_scrapers(search_term)
+        print(search_term)
         self.__initDB()
         self.__initCursor()
         self.cur.execute("""
-                SELECT * FROM sells
-            """)
+            SELECT * FROM sells
+        """)
         self.conn.commit()
 
 
