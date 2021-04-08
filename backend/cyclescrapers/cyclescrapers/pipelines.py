@@ -11,13 +11,13 @@ import psycopg2
 
 class CyclescrapersPipeline:
     def open_spider(self, spider):
-        self.connection = psycopg2.connect(
+        self.conn = psycopg2.connect( ################################################needs to be moved to config or env
             host='localhost',
             user='postgres',
             password='',
             dbname='cyclodb'
         )
-        self.cur = self.connection.cursor()
+        self.cur = self.conn.cursor()
         self.cur.execute("""
             CREATE TABLE IF NOT EXISTS cyclo_retailer (
                 name        varchar(255) PRIMARY KEY,
@@ -37,12 +37,12 @@ class CyclescrapersPipeline:
                 product     varchar(255)
             )
         """)
-        self.connection.commit()
+        self.conn.commit()
 
 
     def close_spider(self, spider):
         self.cur.close()
-        self.connection.close()
+        self.conn.close()
 
 
     def process_item(self, item, spider):
@@ -58,7 +58,7 @@ class CyclescrapersPipeline:
             INSERT INTO sells(retailer, product) values(%s, %s)
         """, (item['retailer'], item['name'])
         )
-        self.connection.commit()
+        self.conn.commit()
         print(item['name'])
         print(item['price'])
         print(item['url'])
