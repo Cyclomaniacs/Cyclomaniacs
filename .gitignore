@@ -3,3 +3,7 @@ venv
 __pycache__
 frontend/cycloman/node_modules
 node_modules
+*.iml
+*.xml
+*.meta
+.DS_Store

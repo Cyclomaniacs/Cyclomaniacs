@@ -1,7 +1,6 @@
 from scrapy.utils.project import get_project_settings
 from scrapy.crawler import CrawlerProcess
 
-
 def run_scrapers(search_term: str):
 
     search_term = '_'.join(search_term.split(' ')) # format correctly for command line arg parsing
@@ -11,5 +10,9 @@ def run_scrapers(search_term: str):
     process = CrawlerProcess(setting)
     for spider_name in spider_loader.list():
         print ("Running spider %s" % (spider_name))
-        process.crawl(spider_name, item='dog') 
+        process.crawl(spider_name, item=search_term)
     process.start()
+
+
+if __name__ == "__main__":
+    run_scrapers("fox ranger gloves")
