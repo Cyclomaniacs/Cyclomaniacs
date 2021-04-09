@@ -1,12 +1,16 @@
 from flask import Flask, render_template
 import sqlite3
 import os
-
+from dotenv import load_dotenv
+from cyclescrapers.runcycles import run_scrapers
 
 app = Flask(__name__)
 
+load_dotenv()
 
-os.environ.get("FLASK_APP")
+appname = os.getenv("FLASK_APP")
+port = os.getenv("FLASK_RUN_PORT")
+host = os.getenv("FLASK_RUN_HOST")
 
 
 def get_db_connection():
@@ -21,12 +25,19 @@ def get_ip_info(ip_addr):
 
 @app.route('/')
 def index():
+    print('the backend is working')
     return render_template('index.html')
 
 @app.route('/locate')
 def locate():
     ip_addr = request.remote_addr # ip address of the incoming connection
     return get_ip_info(ip_addr)
+
+@app.route('/scrapetest')
+def scrapetest():
+    run_scrapers('fox ranger gloves')
+    return
+
 
 
 
@@ -39,4 +50,4 @@ def locate():
 #     pass
 
 if __name__ == "__main__":
-    application.run(debug=False)
+    app.run(host=host, port=port, debug=False)
