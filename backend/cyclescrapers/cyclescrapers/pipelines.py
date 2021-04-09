@@ -14,7 +14,7 @@ class CyclescrapersPipeline:
         self.conn = psycopg2.connect( ################################################needs to be moved to config or env
             host='localhost',
             user='postgres',
-            password='',
+            password='admin',
             dbname='cyclodb'
         )
         self.cur = self.conn.cursor()

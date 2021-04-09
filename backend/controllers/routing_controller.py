@@ -1,6 +1,5 @@
 from flask import Blueprint, render_template, request, jsonify, abort
 from controllers.db_controller import Search
-import psycopg2
 
 bp = Blueprint('example', __name__)
 
