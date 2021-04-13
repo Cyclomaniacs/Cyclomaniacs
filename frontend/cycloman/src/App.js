@@ -3,13 +3,13 @@ import './App.css';
 import { Container } from 'semantic-ui-react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import 'semantic-ui-css/semantic.min.css';
-import about from './components/about';
+import landing from './components/landing';
 
 function App() {
   return (
 		<Router>
 			<Container>
-				<Route exact path="/" component={about} />
+				<Route exact path="/" component={landing} />
 				{/* <Route exact path="/forgotPW" component={forgotPW} />
 				<Route exact path="/adminHome" component={adminHome} />
 				<Route exact path="/orderSum" component={orderSum} />
