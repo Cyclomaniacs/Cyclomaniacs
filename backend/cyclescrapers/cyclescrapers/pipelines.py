@@ -18,25 +18,26 @@ class CyclescrapersPipeline:
             dbname='cyclodb'
         )
         self.cur = self.conn.cursor()
-        self.cur.execute("""
-            CREATE TABLE IF NOT EXISTS cyclo_retailer (
-                name        varchar(255) PRIMARY KEY,
-                link        varchar(255)
-            )
-        """)
+        # self.cur.execute("""
+        #     CREATE TABLE IF NOT EXISTS cyclo_retailer (
+        #         name        varchar(255) PRIMARY KEY,
+        #         link        varchar(255)
+        #     )
+        # """)
         self.cur.execute("""
             CREATE TABLE IF NOT EXISTS cyclo_product (
                 link        varchar(255) PRIMARY KEY,
                 name        varchar(255),
-                price       varchar(255)
+                price       varchar(255),
+                retailer    varchar(255)
             )
         """)
-        self.cur.execute("""
-            CREATE TABLE IF NOT EXISTS sells (
-                retailer    varchar(255),
-                product     varchar(255)
-            )
-        """)
+        # self.cur.execute("""
+        #     CREATE TABLE IF NOT EXISTS sells (
+        #         retailer    varchar(255),
+        #         product     varchar(255)
+        #     )
+        # """)
         self.conn.commit()
 
 
@@ -47,17 +48,18 @@ class CyclescrapersPipeline:
 
     def process_item(self, item, spider):
         self.cur.execute("""
-            INSERT INTO cyclo_product(link, name, price) values(%s, %s, %s)
-        """, (item['url'], item['name'], item['price'])
+            INSERT INTO cyclo_product(link, name, price, retailer) values(%s, %s, %s, %s)
+        """, (item['url'], item['name'], item['price'], item['retailer'])
         )
-        self.cur.execute("""
-            INSERT INTO cyclo_retailer(name, link) values(%s, %s)
-        """, (item['retailer'], item['url'])
-        )
-        self.cur.execute("""
-            INSERT INTO sells(retailer, product) values(%s, %s)
-        """, (item['retailer'], item['name'])
-        )
+
+        # self.cur.execute("""
+        #     INSERT INTO cyclo_retailer(name, link) values(%s, %s)
+        # """, (item['retailer'], item['url'])
+        # )
+        # self.cur.execute("""
+        #     INSERT INTO sells(retailer, product) values(%s, %s)
+        # """, (item['retailer'], item['name'])
+        # )
         self.conn.commit()
         print(item['name'])
         print(item['price'])

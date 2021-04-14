@@ -5,6 +5,8 @@ import { useLocation } from "react-router-dom";
 import axios from 'axios';
 import {
     Table,
+    Card,
+    Image,
     Label, 
 	Grid,
 	Header,
@@ -44,6 +46,10 @@ class Results extends React.Component {
 
     }
     
+    mycomp(a, b) {
+        
+        return parseFloat(a.price.replace(/[^0-9.-]+/g,"")) - parseFloat(b.price.replace(/[^0-9.-]+/g,""));
+    }
     
     render() {
         // let sampledata = { "product": "Fox Ranger Gloves", "price": 40, "retailer": "Jenson USA", "link": "https://www.jensonusa.com/Fox-Ranger-Glove"}
@@ -52,67 +58,32 @@ class Results extends React.Component {
         // // console.log(this.state.items)
         // let samplearray = [sampledata, sampledata2]
         let samplearray = this.state.items
+        samplearray = samplearray.sort(this.mycomp)
+        
+        console.log(samplearray)
         let myitems = []
+        let colors = ['red', 'orange', 'blue', 'green', 'purple']
         for (var i = 0; i < samplearray.length; i++) {
             // console.log(samplearray[i].product)
-            myitems.push(<Table.Row>
-                <Table.Cell> { samplearray[i].name } </Table.Cell>
-                <Table.Cell> { samplearray[i].price } </Table.Cell>
-                {/* <Table.Cell> { samplearray[i].retailer } </Table.Cell> */}
-                <Table.Cell> <a href= { samplearray[i].link }>Link</a> </Table.Cell>
-            </Table.Row>)
+            myitems.push(<Card
+                fluid color = 'orange'
+                href = {samplearray[i].link}
+                header = {samplearray[i].name}
+                meta = {samplearray[i].retailer}
+                description= {samplearray[i].price} />)
         }
 
         return (
             <div>
                 <h1> This is a test</h1>
                 <h2>You Searched For : {this.props.location.state}</h2>
-                <Table mytable>
-                    <Table.Header>
-                        <Table.Row>
-                            <Table.HeaderCell>Product</Table.HeaderCell>
-                            <Table.HeaderCell>Price</Table.HeaderCell>
-                            {/* <Table.HeaderCell>Retailer</Table.HeaderCell> */}
-                            <Table.HeaderCell>Link</Table.HeaderCell>
-                        </Table.Row>
-                    </Table.Header>
+                <div name="CardList">
+                    <Card.Group itemsPerRow={2}>
 
-                    <Table.Body>
                         {myitems}
-                        {/* for item in array:
-                        <Table.Row>
-                            <Table.Cell>
-                                <Label ribbon>First</Label>
-                            </Table.Cell>
-                            <Table.Cell>Cell</Table.Cell>
-                            <Table.Cell>Cell</Table.Cell>
-                            <Table.Cell>Cell</Table.Cell>
 
-                        </Table.Row>
-                        <Table.Row>
-                            <Table.Cell>
-                                <Label ribbon>Second</Label>
-                            </Table.Cell>
-                            <Table.Cell>Cell</Table.Cell>
-                            <Table.Cell>Cell</Table.Cell>
-                            <Table.Cell>Cell</Table.Cell>
-
-                        </Table.Row>
-
-                        <Table.Row>
-                            <Table.Cell>
-                                <Label ribbon>Third</Label>
-                            </Table.Cell>
-                            <Table.Cell>Cell</Table.Cell>
-                            <Table.Cell>Cell</Table.Cell>
-                            <Table.Cell>Cell</Table.Cell>
-
-                        </Table.Row> */}
-
-
-
-                    </Table.Body>
-                </Table>
+                    </Card.Group>
+                </div>
             </div>
         )
     }
