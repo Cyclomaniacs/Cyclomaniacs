@@ -4,14 +4,16 @@ import { Container } from 'semantic-ui-react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import 'semantic-ui-css/semantic.min.css';
 import landing from './components/landing';
+import results from './components/results';
+
 
 function App() {
   return (
 		<Router>
 			<Container>
 				<Route exact path="/" component={landing} />
-				{/* <Route exact path="/forgotPW" component={forgotPW} />
-				<Route exact path="/adminHome" component={adminHome} />
+				<Route path="/results" component={results} />
+				{/* <Route exact path="/adminHome" component={adminHome} />
 				<Route exact path="/orderSum" component={orderSum} />
 				<Route exact path="/resetPW/*" component={resetPW} /> */}
 			</Container>
