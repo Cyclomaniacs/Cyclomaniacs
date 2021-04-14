@@ -37,7 +37,7 @@ class Landing extends React.Component {
             console.log('Please input something')
         }
         
-        this.history.push({pathname: '/results', state: this.state.query})
+        this.props.history.push({pathname: '/results', state: this.state.query})
         
 
 

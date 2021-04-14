@@ -11,7 +11,7 @@ class Search:
             self.conn = psycopg2.connect(  ###########################################needs to be moved to config or env
                 host='localhost',
                 user='postgres',
-                password='',
+                password='secret',
                 dbname='cyclodb'
             )
         except Exception as err:
@@ -41,7 +41,7 @@ class Search:
         self.__initDB()
         self.__initCursor()
         self.cur.execute("""
-            SELECT * FROM sells
+            SELECT * FROM cyclo_product
         """)
         self.conn.commit()
 
@@ -61,7 +61,10 @@ class Search:
                 data.append(dict(zip(columns, row)))
             self.cur.close()
             self.conn.close()
-            return jsonify(data)
+            response = jsonify(data)
+            response.headers.add("Access-Control-Allow-Origin", "*")
+            print(response)
+            return response
         except Exception as err:
             print(err)
 
