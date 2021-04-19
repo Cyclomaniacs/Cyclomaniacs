@@ -120,14 +120,12 @@ class Search:
             if self.cur is None:
                 raise Exception('Missing cursor')
 
-            results = self.cur.fetchall()
-            data = []
-            columns = [col[0] for col in self.cur.description]
-            for row in results:
-                data.append(dict(zip(columns, row)))
+            results = []
+            for row in self.cur.fetchall():
+                results.append(dict(zip([col[0] for col in self.cur.description], row)))
             self.cur.close()
             self.conn.close()
-            response = jsonify(data)
+            response = jsonify(results)
             response.headers.add("Access-Control-Allow-Origin", "*")
             print(response)
             # self.clear_results() # wipe for next search
