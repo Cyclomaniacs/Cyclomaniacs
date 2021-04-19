@@ -3,6 +3,8 @@ import { useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import { useHistory } from 'react-router-dom';
 import results from './results'
+import '../App.css';
+
 
 import {
 	Grid,
@@ -54,6 +56,10 @@ class Landing extends React.Component {
 
 
     render () {
+
+        // const bodystyle = {
+        //     color: "yellow"
+        // }
         return(
         <div>
               <title>Cyclomaniacs</title>
@@ -98,9 +104,6 @@ class Landing extends React.Component {
                     {/* </form> */}
 
 
-                    <div>
-                        <button class="test1 center">How does this work?</button>
-                    </div>
                     </div>
 
                 </div>

@@ -2,6 +2,7 @@ import React from 'react';
 import { useState } from 'react';
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import Loader from 'react-loader-spinner';
 import axios from 'axios';
 import {
     Table,
@@ -35,14 +36,35 @@ class Results extends React.Component {
         
     }
     
-    componentDidMount() {
+    // componentDidMount() {
+    //     // axios.defaults.headers.get['Access-Control-Allow-Origin'] = '*'
+    //     let search_term = this.props.location.state
+    //     search_term = search_term.split(' ');
+    //     search_term = search_term.join('+');
+    //     axios.get('http://localhost:5000/api/search?term=' + search_term)
+    //     .then(res => {
+    //         const items = res.data;
+    //         console.log(items)
+    //         this.setState( {items});
+    //     })
+
+    // }
+
+        componentDidMount() {
         // axios.defaults.headers.get['Access-Control-Allow-Origin'] = '*'
-        axios.get('http://localhost:5000/api/search?term=fox+ranger+gloves')
-        .then(res => {
-            const items = res.data;
-            console.log(items)
-            this.setState( {items});
+        let search_term = this.props.location.state
+        search_term = search_term.split(' ');
+        search_term = search_term.join('+');
+
+        this.setState({ loading: true }, () => {
+            axios.get('http://localhost:5000/api/search?term=' + search_term)
+                .then(results => this.setState( {
+                    loading: false,
+                    items: results.data
+                }))
+
         })
+
 
     }
     
@@ -73,10 +95,25 @@ class Results extends React.Component {
                 description= {samplearray[i].price} />)
         }
 
+        const loading = this.state.loading
+        console.log(loading)
+
         return (
+            
             <div>
-                <h1> This is a test</h1>
-                <h2>You Searched For : {this.props.location.state}</h2>
+                <div
+                      style={{
+                        width: "100%",
+                        height: "100",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center"
+                      }}
+                    >
+                      {loading ? <Loader type="ThreeDots" color="#2BAD60" height="100" width="100" /> : <h2>You Searched For : {this.props.location.state}</h2>}
+                </div>
+
+                
                 <div name="CardList">
                     <Card.Group itemsPerRow={2}>
 
