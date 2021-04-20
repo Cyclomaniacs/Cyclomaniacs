@@ -1,3 +1,6 @@
+#db_manip.py - Model component containing all sql strings wrapped in their own generic callable functions
+
+
 def create_table(conn, cur):
     cur.execute("""
         CREATE TABLE IF NOT EXISTS cyclo_retailer (
@@ -39,6 +42,16 @@ def insert_item(conn, cur, item):
 
     conn.commit()
 
+########################################insert custom queries here######################################################
+
+#for example:
+
+#def retrieve_only_retailers(conn, cur):
+#def retrieve_items_less_than_x_miles(conn, cur, miles):
+#def retrieve_items_cheaper_than_x(conn, curr, limit):
+#etc.
+#etc.
+#etc.
 
 def default_retrieve_items(conn, cur):
     cur.execute("""
@@ -50,6 +63,8 @@ def default_retrieve_items(conn, cur):
     """)
 
     conn.commit()
+
+########################################################################################################################
 
 
 def drop_all_tables(conn, cur):
