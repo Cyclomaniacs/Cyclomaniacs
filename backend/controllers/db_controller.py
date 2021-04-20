@@ -1,6 +1,8 @@
 import psycopg2
 from flask import jsonify
-from controllers.bs4scrapers import run_scrapers
+from model.bs4scrapers import run_scrapers
+from model.db_manip import *
+
 class Search:
     ##################################################PRIVATE  METHODS##################################################
     # __initDB(self):
@@ -36,6 +38,8 @@ class Search:
             if self.conn is not None:
                 self.cur = self.conn.cursor()
 
+                create_table(self.conn, self.cur)
+
                 # self.cur.execute("""
                 #     CREATE TABLE IF NOT EXISTS cyclo_product (
                 #             link        varchar(255) PRIMARY KEY,
@@ -44,27 +48,7 @@ class Search:
                 #             retailer    varchar(255)
                 #     )
                 # """)
-
-                self.cur.execute("""
-                    CREATE TABLE IF NOT EXISTS cyclo_retailer (
-                        name        varchar(255) PRIMARY KEY,
-                        link        varchar(255)
-                    )
-                """)
-                self.cur.execute("""
-                    CREATE TABLE IF NOT EXISTS cyclo_product (
-                        link        varchar(255) PRIMARY KEY,
-                        name        varchar(255),
-                        price       varchar(255)
-                    )
-                """)
-                self.cur.execute("""
-                    CREATE TABLE IF NOT EXISTS sells (
-                        retailer    varchar(255),
-                        product     varchar(255)
-                    )
-                """)
-                self.conn.commit()
+                # self.conn.commit()
 
             else:
                 raise Exception('Tried to retrieve cursor from null database')
@@ -84,14 +68,7 @@ class Search:
         self.__initTable()
         data = run_scrapers(search_term)
         self.update_param(data)
-        self.cur.execute("""
-            WITH
-                a AS (SELECT * FROM SELLS),
-                b AS (SELECT * FROM cyclo_product)
-
-            SELECT link, name, price, retailer FROM (a RIGHT OUTER JOIN b ON a.product = b.name)
-        """)
-        self.conn.commit()
+        default_retrieve_items(self.conn, self.cur)
 
 
     def clear_results(self):
@@ -103,19 +80,8 @@ class Search:
                 raise Exception('Missing cursor')
 
 
-            self.cur.execute("""
-                DROP TABLE cyclo_retailer
-            """)
-
-            self.cur.execute("""
-                 DROP TABLE cyclo_product
-            """)
-
-            self.cur.execute("""
-                 DROP TABLE sells
-            """)
-
-            self.conn.commit()
+            drop_all_tables(self.conn, self.cur)
+            create_table(self.conn, self.cur)
 
             # self.cur.execute("""
             #     CREATE TABLE IF NOT EXISTS cyclo_product (
@@ -125,30 +91,7 @@ class Search:
             #             retailer    varchar(255)
             #     )
             # """)
-
-            self.cur.execute("""
-                CREATE TABLE IF NOT EXISTS cyclo_retailer (
-                    name        varchar(255) PRIMARY KEY,
-                    link        varchar(255)
-                )
-            """)
-
-            self.cur.execute("""
-                CREATE TABLE IF NOT EXISTS cyclo_product (
-                    link        varchar(255) PRIMARY KEY,
-                    name        varchar(255),
-                    price       varchar(255)
-                )
-            """)
-
-            self.cur.execute("""
-                CREATE TABLE IF NOT EXISTS sells (
-                    retailer    varchar(255),
-                    product     varchar(255)
-                )
-            """)
-
-            self.conn.commit()
+            # self.conn.commit()
 
         except Exception as err:
             print(err)
@@ -158,23 +101,11 @@ class Search:
         self.clear_results()
         print(data)
         for item in data:
-            self.cur.execute("""
-                INSERT INTO cyclo_product(link, name, price) values(%s, %s, %s)
-            """, (item['url'], item['name'], item['price']))
-
-            self.cur.execute("""
-                INSERT INTO cyclo_retailer(name, link) values(%s, %s)
-            """, (item['retailer'], item['url']))
-
-            self.cur.execute("""
-                INSERT INTO sells(retailer, product) values(%s, %s)
-            """, (item['retailer'], item['name']))
+            insert_item(self.conn, self.cur, item)
             #self.cur.execute("""
             #     INSERT INTO cyclo_product(link, name, price, retailer) values(%s, %s, %s, %s)
             #""", (item['url'], item['name'], item['price'], item['retailer'])
             #)
-
-            self.conn.commit()
 
         return
 
