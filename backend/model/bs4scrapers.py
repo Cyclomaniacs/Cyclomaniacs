@@ -126,6 +126,8 @@ def run_scrapers(search_term: str):
     data.append(competitive_scrape(search_term))
     data.append(chainreaction_scraper(search_term))
     data.append(backcountry_scraper(search_term))
+
+    data = [item for item in data if item != {}]
     return data
 
 # run_scrapers('maxxis+minion')
