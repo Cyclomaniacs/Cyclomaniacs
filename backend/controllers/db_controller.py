@@ -36,12 +36,32 @@ class Search:
             if self.conn is not None:
                 self.cur = self.conn.cursor()
 
+                # self.cur.execute("""
+                #     CREATE TABLE IF NOT EXISTS cyclo_product (
+                #             link        varchar(255) PRIMARY KEY,
+                #             name        varchar(255),
+                #             price       varchar(255),
+                #             retailer    varchar(255)
+                #     )
+                # """)
+
                 self.cur.execute("""
-                CREATE TABLE IF NOT EXISTS cyclo_product (
-                    link        varchar(255) PRIMARY KEY,
-                    name        varchar(255),
-                    price       varchar(255),
-                    retailer    varchar(255)
+                    CREATE TABLE IF NOT EXISTS cyclo_retailer (
+                        name        varchar(255) PRIMARY KEY,
+                        link        varchar(255)
+                    )
+                """)
+                self.cur.execute("""
+                    CREATE TABLE IF NOT EXISTS cyclo_product (
+                        link        varchar(255) PRIMARY KEY,
+                        name        varchar(255),
+                        price       varchar(255)
+                    )
+                """)
+                self.cur.execute("""
+                    CREATE TABLE IF NOT EXISTS sells (
+                        retailer    varchar(255),
+                        product     varchar(255)
                     )
                 """)
                 self.conn.commit()
@@ -65,7 +85,11 @@ class Search:
         data = run_scrapers(search_term)
         self.update_param(data)
         self.cur.execute("""
-            SELECT * FROM cyclo_product
+            WITH
+                a AS (SELECT * FROM SELLS),
+                b AS (SELECT * FROM cyclo_product)
+
+            SELECT link, name, price, retailer FROM (a RIGHT OUTER JOIN b ON a.product = b.name)
         """)
         self.conn.commit()
 
@@ -80,19 +104,50 @@ class Search:
 
 
             self.cur.execute("""
-                DROP TABLE cyclo_product
+                DROP TABLE cyclo_retailer
+            """)
+
+            self.cur.execute("""
+                 DROP TABLE cyclo_product
+            """)
+
+            self.cur.execute("""
+                 DROP TABLE sells
             """)
 
             self.conn.commit()
 
+            # self.cur.execute("""
+            #     CREATE TABLE IF NOT EXISTS cyclo_product (
+            #             link        varchar(255) PRIMARY KEY,
+            #             name        varchar(255),
+            #             price       varchar(255),
+            #             retailer    varchar(255)
+            #     )
+            # """)
+
             self.cur.execute("""
-            CREATE TABLE IF NOT EXISTS cyclo_product (
-                link        varchar(255) PRIMARY KEY,
-                name        varchar(255),
-                price       varchar(255),
-                retailer    varchar(255)
+                CREATE TABLE IF NOT EXISTS cyclo_retailer (
+                    name        varchar(255) PRIMARY KEY,
+                    link        varchar(255)
                 )
             """)
+
+            self.cur.execute("""
+                CREATE TABLE IF NOT EXISTS cyclo_product (
+                    link        varchar(255) PRIMARY KEY,
+                    name        varchar(255),
+                    price       varchar(255)
+                )
+            """)
+
+            self.cur.execute("""
+                CREATE TABLE IF NOT EXISTS sells (
+                    retailer    varchar(255),
+                    product     varchar(255)
+                )
+            """)
+
             self.conn.commit()
 
         except Exception as err:
@@ -104,9 +159,20 @@ class Search:
         print(data)
         for item in data:
             self.cur.execute("""
-                 INSERT INTO cyclo_product(link, name, price, retailer) values(%s, %s, %s, %s)
-            """, (item['url'], item['name'], item['price'], item['retailer'])
-            )
+                INSERT INTO cyclo_product(link, name, price) values(%s, %s, %s)
+            """, (item['url'], item['name'], item['price']))
+
+            self.cur.execute("""
+                INSERT INTO cyclo_retailer(name, link) values(%s, %s)
+            """, (item['retailer'], item['url']))
+
+            self.cur.execute("""
+                INSERT INTO sells(retailer, product) values(%s, %s)
+            """, (item['retailer'], item['name']))
+            #self.cur.execute("""
+            #     INSERT INTO cyclo_product(link, name, price, retailer) values(%s, %s, %s, %s)
+            #""", (item['url'], item['name'], item['price'], item['retailer'])
+            #)
 
             self.conn.commit()
 
