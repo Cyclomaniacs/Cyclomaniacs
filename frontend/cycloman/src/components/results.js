@@ -1,19 +1,8 @@
 import React from 'react';
-import { useState } from 'react';
-import { useEffect } from "react";
-import { useLocation } from "react-router-dom";
 import Loader from 'react-loader-spinner';
 import axios from 'axios';
 import {
-    Table,
     Card,
-    Image,
-    Label, 
-	Grid,
-	Header,
-	Form,
-	Segment,
-	Button,
 } from 'semantic-ui-react';
 import {Link } from "react-router-dom";
 // function Results( {query}) {
