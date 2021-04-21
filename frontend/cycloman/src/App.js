@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import 'semantic-ui-css/semantic.min.css';
 import landing from './components/landing';
 import results from './components/results';
+import aboutUs from './components/aboutUs';
 
 
 function App() {
@@ -13,9 +14,7 @@ function App() {
 			<Container>
 				<Route exact path="/" component={landing} />
 				<Route path="/results" component={results} />
-				{/* <Route exact path="/adminHome" component={adminHome} />
-				<Route exact path="/orderSum" component={orderSum} />
-				<Route exact path="/resetPW/*" component={resetPW} /> */}
+				<Route path="/about" component={aboutUs} />
 			</Container>
 		</Router>
   );

@@ -1,30 +1,10 @@
 import React from 'react';
-import { useState } from 'react';
-import { useEffect } from "react";
-import { useLocation } from "react-router-dom";
 import Loader from 'react-loader-spinner';
 import axios from 'axios';
 import {
-    Table,
     Card,
-    Image,
-    Label, 
-	Grid,
-	Header,
-	Form,
-	Segment,
-	Button,
 } from 'semantic-ui-react';
 
-// function Results( {query}) {
-    
-//     return(
-//         <div>
-//         <h1>Please help me Im stuck in a washing machine</h1>
-//         <h2>{query}</h2>
-//         </div>
-//     );
-// }
 
 class Results extends React.Component {
     constructor(props) {

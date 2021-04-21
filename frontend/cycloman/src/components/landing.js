@@ -1,14 +1,8 @@
 import React from 'react';
-import { useState } from 'react';
-import { Redirect } from 'react-router-dom';
-import { useHistory } from 'react-router-dom';
-import results from './results'
 import '../App.css';
 
 
 import {
-	Grid,
-	Header,
 	Form,
 	Segment,
 	Button,
@@ -95,7 +89,7 @@ class Landing extends React.Component {
                             <Button
                             color = 'grey'
                             size = 'medium'
-                            href ="/aboutUs"
+                            href ="/about"
                             >
                                 About Us
                             </Button>
