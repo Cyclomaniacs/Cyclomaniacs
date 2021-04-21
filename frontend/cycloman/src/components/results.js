@@ -105,7 +105,7 @@ class Results extends React.Component {
                 <Button
                     color = 'black'
                     size = 'small'
-                    href ="/aboutUs"
+                    href ="/about"
                     >
                     About Us
                 </Button>
