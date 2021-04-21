@@ -3,6 +3,7 @@ import Loader from 'react-loader-spinner';
 import axios from 'axios';
 import {
     Card,
+    Button,
 } from 'semantic-ui-react';
 import {Link } from "react-router-dom";
 // function Results( {query}) {
