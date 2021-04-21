@@ -63,7 +63,7 @@ class Landing extends React.Component {
         return(
         <div>
               <title>Cyclomaniacs</title>
-
+            <br></br>
             <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet"></link>
             <link href="css/scrolling-nav.css" rel="stylesheet"></link>
             
@@ -73,7 +73,10 @@ class Landing extends React.Component {
 
                     <div id="login">
 
-                    <img src="logo4.PNG" class="m-0 text-center" alt="Cyclomaniacs Logo" width="615" height="249"></img>
+                    <img src="logo4.PNG" class="m-0 text-center" alt="Cyclomaniacs Logo" width="550" height="150"></img>
+                    
+                    <br></br>
+                    <br></br>
                     <Form size = "large">
                         <Segment stacked>
                             <Form.Input
@@ -87,6 +90,7 @@ class Landing extends React.Component {
                         <input type="text" placeholder="Search for bike products here and we will find the lowest prices..." name="search" size="50">
                         </input> */}
                         {/* <button class="test1 center">Search</button> */}
+                        <br></br>
                         <Button
                         color = "blue"
                         onClick = {this.search}>
@@ -107,12 +111,6 @@ class Landing extends React.Component {
                     </div>
 
                 </div>
-                <script src="vendor/jquery/jquery.min.js"></script>
-                <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-                <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-
-                <script src="js/scrolling-nav.js"></script>
                 </body>
         
         </div>

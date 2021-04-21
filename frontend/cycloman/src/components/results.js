@@ -15,7 +15,7 @@ import {
 	Segment,
 	Button,
 } from 'semantic-ui-react';
-
+import {Link } from "react-router-dom";
 // function Results( {query}) {
     
 //     return(
@@ -100,7 +100,27 @@ class Results extends React.Component {
 
         return (
             
-            <div>
+            <div style={{textAlign: "center"}}>
+                
+                <div>
+                <img src="logo4.PNG" class="centerImage" alt="Cyclomaniacs Logo" width="320" height="80"></img>
+                </div>       
+                <Button
+                    color = 'black'
+                    size = 'small'
+                    href ="/"
+                    >
+                    Search Again
+                </Button>
+                <Button
+                    color = 'black'
+                    size = 'small'
+                    href ="/aboutUs"
+                    >
+                    About Us
+                </Button>
+                <hr></hr>
+                
                 <div
                       style={{
                         width: "100%",
@@ -110,9 +130,10 @@ class Results extends React.Component {
                         alignItems: "center"
                       }}
                     >
-                      {loading ? <Loader type="ThreeDots" color="#2BAD60" height="100" width="100" /> : <h2>You Searched For : {this.props.location.state}</h2>}
+                      {loading ? <Loader type="ThreeDots" color="#2BAD60" height="100" width="100" /> : <h2> </h2>}
                 </div>
 
+                <br></br>
                 
                 <div name="CardList">
                     <Card.Group itemsPerRow={2}>
